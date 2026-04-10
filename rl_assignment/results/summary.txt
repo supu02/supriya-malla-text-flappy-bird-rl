@@ -1,0 +1,23 @@
+Baseline environment: height=15, width=20, pipe_gap=4
+
+Monte Carlo final evaluation:
+ episode  mean_eval_return  std_eval_return  mean_eval_score  std_eval_score
+    2000             168.7        46.293376             16.0        4.546061
+
+Sarsa(lambda) final evaluation:
+ episode  mean_eval_return  std_eval_return  mean_eval_score  std_eval_score
+    2000        175.066667        52.947101             16.5        5.333854
+
+Monte Carlo transfer:
+                    environment  height  width  pipe_gap  mean_return  mean_score
+height=15, width=20, pipe_gap=4      15     20         4   156.533333   14.766667
+height=18, width=20, pipe_gap=4      18     20         4   108.200000    9.666667
+height=15, width=24, pipe_gap=4      15     24         4    78.566667    5.933333
+height=15, width=20, pipe_gap=5      15     20         5   181.200000   17.133333
+
+Sarsa(lambda) transfer:
+                    environment  height  width  pipe_gap  mean_return  mean_score
+height=15, width=20, pipe_gap=4      15     20         4   186.733333   17.733333
+height=18, width=20, pipe_gap=4      18     20         4   105.866667    9.500000
+height=15, width=24, pipe_gap=4      15     24         4   124.066667    9.566667
+height=15, width=20, pipe_gap=5      15     20         5   184.933333   17.500000

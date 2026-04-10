@@ -1,0 +1,4 @@
+label,mean_eval_return,mean_eval_score
+"gamma=0.99, epsilon=0.05, epsilon_decay=0.999, min_epsilon=0.02, seed=1",160.35,14.95
+"gamma=0.99, epsilon=0.1, epsilon_decay=0.999, min_epsilon=0.02, seed=1",162.05,15.1
+"gamma=0.99, epsilon=0.2, epsilon_decay=0.999, min_epsilon=0.02, seed=1",175.4,16.55

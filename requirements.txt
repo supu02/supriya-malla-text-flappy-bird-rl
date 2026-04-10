@@ -1,0 +1,7 @@
+numpy
+pandas
+matplotlib
+seaborn
+gymnasium==0.29.0
+jupyter
+-e vendor/text-flappy-bird-gym-master

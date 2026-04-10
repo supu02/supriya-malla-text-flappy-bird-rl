@@ -1,0 +1,150 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\title{Monte Carlo Control vs Sarsa($\lambda$) on Text Flappy Bird}
+
+\author{Supriya Malla}
+
+\institute{3MD3220 -- Reinforcement Learning}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report compares two tabular reinforcement learning agents on the simple
+Text Flappy Bird environment: first-visit Monte Carlo control and
+Sarsa($\lambda$). I use the distance-based state because it is small enough for
+a value-table approach. In my experiments, both agents learn, Monte Carlo
+improves faster early in training, and Sarsa($\lambda$) reaches the best final
+score with a longer training budget.
+\keywords{reinforcement learning \and Monte Carlo control \and Sarsa($\lambda$)}
+\end{abstract}
+
+\section{Setup}
+
+I used the simple \texttt{TextFlappyBird-v0} environment from the course
+repository~\cite{textflappybird}. The state is $(dx,dy)$, where $dx$ is the
+horizontal distance to the next pipe gap and $dy$ is the vertical distance
+between the bird and the center of that gap. The action space has two actions:
+idle and flap.
+
+All main experiments use the default configuration
+\texttt{height=15, width=20, pipe\_gap=4}. Both agents were trained for 2000
+episodes, with a maximum of 200 steps per episode, and greedy evaluation every
+200 episodes on 30 episodes. I measured return and score.
+
+The Monte Carlo agent used $\gamma=0.99$, $\epsilon=0.20$,
+$\epsilon$ decay $=0.999$, and minimum $\epsilon=0.01$.
+The Sarsa($\lambda$) agent used $\alpha=0.15$, $\lambda=0.9$,
+$\gamma=0.99$, $\epsilon=0.10$, $\epsilon$ decay $=0.999$, and minimum
+$\epsilon=0.02$.
+
+The submitted notebook is available at
+\href{https://github.com/supu02/supriya-malla-text-flappy-bird-rl/blob/main/Supriya_Malla_TFB_Assignment.ipynb}{GitHub notebook link}.
+
+\section{Results}
+
+Table~\ref{tab:final-results} shows the final evaluation after 2000 episodes.
+Both agents learned useful policies. Sarsa($\lambda$) reached the best final
+result, with mean return 175.07 and mean score 16.50. Monte Carlo was close
+behind, with mean return 168.70 and score 16.00.
+
+\begin{table}[t]
+\caption{Final greedy evaluation after 2000 episodes.}
+\label{tab:final-results}
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+Agent & Mean Return & Mean Score \\
+\midrule
+Monte Carlo control & 168.70 & 16.00 \\
+Sarsa($\lambda$) & 175.07 & 16.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The learning curves in Fig.~\ref{fig:training-compare} show the main
+difference. Monte Carlo starts improving earlier and stays ahead during the
+first part of training. Sarsa($\lambda$) improves more slowly at first, but by
+the end of training it slightly overtakes Monte Carlo in both return and score.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{results/report_training_compare.png}
+\caption{Comparison of the training curves for both agents. The lines are
+100-episode moving averages and the markers are greedy evaluations.}
+\label{fig:training-compare}
+\end{figure}
+
+I also looked at the learned action-values and a small parameter sweep. Figure
+~\ref{fig:q-compare} shows the learned $Q(s,\mathrm{flap})$ maps for both
+agents together with the sweep results. In both agents, the high-value states
+form a band around the safe region near the next gap.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{results/report_q_and_sweeps.png}
+\caption{Action-value summaries and compact parameter sweeps. Top: learned
+$Q(s,\mathrm{flap})$ maps. Bottom: score from the tested sweep settings.}
+\label{fig:q-compare}
+\end{figure}
+
+\section{Discussion}
+
+The sweep results were useful. For Monte Carlo, higher initial exploration
+helped: the best tested setting was $\epsilon=0.20$, with mean return 175.40
+and score 16.55. For Sarsa($\lambda$), the parameter choice mattered more. A
+weak setting with $\alpha=0.05$ and $\lambda=0.7$ almost did not learn, while
+$\alpha=0.15$ and $\lambda=0.9$ worked much better and reached mean return
+130.8 with score 12.0.
+
+The two versions of the Text Flappy Bird environment are useful for different
+reasons. The simple version is suitable for tabular RL because the state is
+small. The screen version keeps more information, but the state space is much
+larger, so it would be a better fit for function approximation or deep RL.
+The same issue appears in the original Flappy Bird gym~\cite{flappybirdgym}:
+the RGB version is too large for a value table, and even the simple original
+environment would need discretization because its observations are continuous.
+
+I also tested transfer to a few modified level settings. Monte Carlo scored
+14.77 on the training layout, then dropped to 9.67 on a taller map and 5.93 on
+a wider map, but increased to 17.13 when the pipe gap was larger. Sarsa showed
+similar behavior, with 17.73 on the base layout, 9.50 on the taller map, 9.57
+on the wider map, and 17.50 on the larger-gap setting. So both agents
+generalize partly, but both are still adapted to the training geometry.
+
+\section{Conclusion}
+
+Overall, both methods learned a reasonable policy on the simple Text Flappy
+Bird environment. In my experiments, Monte Carlo was stronger early in
+training, but Sarsa($\lambda$) became slightly better with the longer 2000
+episode budget. Sarsa($\lambda$) was still more sensitive to tuning. The
+simple $(dx,dy)$ environment works for tabular RL, while richer versions of
+the game would likely need different methods.
+
+\begin{thebibliography}{8}
+
+\bibitem{textflappybird}
+Christodoulidis, S.:
+Text Flappy Bird Gym.
+\url{https://gitlab-research.centralesupelec.fr/stergios.christodoulidis/text-flappy-bird-gym}
+
+\bibitem{suttonbarto}
+Sutton, R.S., Barto, A.G.:
+Reinforcement Learning: An Introduction.
+MIT Press, 2nd edn. (2018)
+
+\bibitem{flappybirdgym}
+Nogueira, G.:
+Flappy Bird Gym.
+\url{https://github.com/Talendar/flappy-bird-gym}
+
+\end{thebibliography}
+
+\end{document}

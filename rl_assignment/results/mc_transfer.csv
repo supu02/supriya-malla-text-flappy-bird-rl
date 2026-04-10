@@ -1,0 +1,5 @@
+environment,height,width,pipe_gap,mean_return,mean_score
+"height=15, width=20, pipe_gap=4",15,20,4,156.53333333333333,14.766666666666667
+"height=18, width=20, pipe_gap=4",18,20,4,108.2,9.666666666666666
+"height=15, width=24, pipe_gap=4",15,24,4,78.56666666666666,5.933333333333334
+"height=15, width=20, pipe_gap=5",15,20,5,181.2,17.133333333333333

@@ -1,0 +1,4 @@
+label,mean_eval_return,mean_eval_score
+"alpha=0.05, lambda_=0.7, gamma=0.99, epsilon=0.1, epsilon_decay=0.999, min_epsilon=0.02, seed=2",9.8,0.0
+"alpha=0.1, lambda_=0.8, gamma=0.99, epsilon=0.1, epsilon_decay=0.999, min_epsilon=0.02, seed=2",17.2,0.65
+"alpha=0.15, lambda_=0.9, gamma=0.99, epsilon=0.1, epsilon_decay=0.999, min_epsilon=0.02, seed=2",130.8,12.0
